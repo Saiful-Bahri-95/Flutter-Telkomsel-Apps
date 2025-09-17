@@ -1,9 +1,20 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:telkomsel_app/screens/home/components/card_info_home_1.dart';
+import 'package:telkomsel_app/screens/home/components/card_info_home_2.dart';
 import 'package:telkomsel_app/themes.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List cards = [CardInfoHome1(), CardInfoHome2()];
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +79,61 @@ class HomePage extends StatelessWidget {
       );
     }
 
+    Widget indicator(index) {
+      return Container(
+        width: currentIndex == index ? 18 : 5,
+        height: 5,
+        margin: EdgeInsets.symmetric(horizontal: 2),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: currentIndex == index
+              ? whiteColor
+              : whiteColor.withOpacity(0.7),
+        ),
+      );
+    }
+
     Widget cardInfo() {
-      return Column(children: [CardInfoHome()]);
+      int index = -1;
+      return Column(
+        children: [
+          CarouselSlider(
+            items: cards.map<Widget>((card) => Container(child: card)).toList(),
+            options: CarouselOptions(
+              viewportFraction: 1,
+              height: 333,
+              enableInfiniteScroll: false,
+              initialPage: 0,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+            ),
+          ),
+          SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: cards.map((e) {
+              index += 1;
+              return indicator(index);
+            }).toList(),
+          ),
+        ],
+      );
+    }
+
+    Widget recomendedForYou() {
+      return Container();
+    }
+
+    Widget content() {
+      return Container(
+        decoration: BoxDecoration(color: whiteColor),
+        child: Column(children: [
+
+        ],),
+      );
     }
 
     return Scaffold(
@@ -82,7 +146,7 @@ class HomePage extends StatelessWidget {
             colors: [redColor, yellowColor],
           ),
         ),
-        child: ListView(children: [header(), cardInfo()]),
+        child: ListView(children: [header(), cardInfo(), content()]),
       ),
     );
   }
