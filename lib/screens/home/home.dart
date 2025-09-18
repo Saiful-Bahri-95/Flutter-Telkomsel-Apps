@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:telkomsel_app/screens/home/components/card_info_home_1.dart';
 import 'package:telkomsel_app/screens/home/components/card_info_home_2.dart';
+import 'package:telkomsel_app/screens/home/components/recommended_card.dart';
+import 'package:telkomsel_app/screens/home/components/whats_new_card.dart';
 import 'package:telkomsel_app/themes.dart';
 
 class HomePage extends StatefulWidget {
@@ -123,16 +125,84 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    Widget recomendedForYou() {
-      return Container();
+    Widget recommendedForYou() {
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 16, top: 45, right: 16),
+            child: Row(
+              children: [
+                Text('Recommended For You', style: extraBoldText18),
+                Spacer(),
+                Text(
+                  'See all',
+                  style: regulerText12.copyWith(color: blueColor),
+                ),
+              ],
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                RecommendedCard(
+                  title: 'Kuota Ketengan Until...',
+                  date: '29 Sept 2025 08:08:34',
+                  price: 'Rp 19.000',
+                ),
+                SizedBox(width: 16),
+                RecommendedCard(
+                  title: 'Kuota Ketengan Belajar',
+                  date: '31 Sept 2025 18:38:34',
+                  price: 'Rp 4.000',
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget whatsNew() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16, bottom: 14),
+            child: Text('What\'s New', style: extraBoldText18),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                WhatsNewCard(
+                  image: 'assets/images/image-vidio.png',
+                  text: 'Package',
+                  title: 'Vidio Digital Premier',
+                ),
+                SizedBox(width: 16),
+                WhatsNewCard(
+                  image: 'assets/images/image-poin.png',
+                  text: 'POIN',
+                  title: 'Undi-Undi Heppy',
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
     }
 
     Widget content() {
       return Container(
-        decoration: BoxDecoration(color: whiteColor),
-        child: Column(children: [
-
-        ],),
+        margin: EdgeInsets.only(top: 20),
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(children: [recommendedForYou(), whatsNew()]),
       );
     }
 
@@ -146,8 +216,22 @@ class _HomePageState extends State<HomePage> {
             colors: [redColor, yellowColor],
           ),
         ),
-        child: ListView(children: [header(), cardInfo(), content()]),
+        child: ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: ListView(children: [header(), cardInfo(), content()]),
+        ),
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+    BuildContext context,
+    Widget child,
+    AxisDirection axisDirection,
+  ) {
+    return child;
   }
 }

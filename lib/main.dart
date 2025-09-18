@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:telkomsel_app/screens/bottom_navbar.dart';
 import 'package:telkomsel_app/themes.dart';
 
@@ -11,9 +12,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(bottomNavigationBarTheme: BottomNavigationBarThemeData(selectedItemColor: redColor, unselectedItemColor: greyColor)),
+      theme: ThemeData(
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedItemColor: redColor,
+          unselectedItemColor: greyColor,
+        ),
+      ),
       title: 'Telkomsel App',
       home: BottomNavBar(),
     );

@@ -71,6 +71,7 @@ TextStyle extraBoldText26 = GoogleFonts.poppins(
 TextStyle extraBoldText18 = GoogleFonts.nunito(
   fontSize: 18,
   fontWeight: extraBold,
+  color: primaryTextColor,
 );
 
 FontWeight reguler = FontWeight.w400;
